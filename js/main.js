@@ -1,31 +1,41 @@
 const ticItems = document.querySelectorAll(".wrapper__item"),
       userNames = document.querySelectorAll(".header__name"),
       popup = document.querySelector(".popup"),
-      welcomeBtn = document.querySelector(".popup__btn");
+      welcomeBtn = document.querySelector(".popup__btn"),
+      firstInName = document.querySelector(".form__name--first"),
+      secondInName = document.querySelector(".form__name--second"),
+      finishPopup = document.querySelector(".finish"),
+      restartGame = finishPopup.querySelector(".finish__btn");
 
 const animationTiming = {
     duration: 300,
     fill: "forwards",
 };
 
-
 let counter = 0;
-let allWinCombination = ["012", "345", "678", "036", "147", "258", "048", "246"];
-let crossStr = "";
-let circleStr = "";
+let allWinCombination = [
+    [0, 1 ,2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6]
+];
+
 
 ticItems.forEach((item, i) => {
     item.addEventListener("click", () => {
         counter += 1;
         addCrossOrCircle(item, toggleFigure(counter));
-        endGame();
-        winUser(item, i);
+        winnerFigure(allWinCombination, counter);
     });
 });
 
 
 window.onload = () => {
-    //enterUserName();
+
 };
 
 function addCrossOrCircle (cell, figure) {
@@ -47,39 +57,49 @@ function toggleFigure (step) {
     }
 }
 
-function enterUserName () {
-    userNames.forEach((name, i) => {
-        console.log(name);
-        name.innerHTML += name.innerHTML = prompt(`Имя ${i + 1} игрока`, '');
-    });
-}
-
-function endGame () {
-    if (counter === 9) {
-        alert ("Конец игры!");
+function winnerFigure (combinations, count) {
+    let result = "";
+    for (let comb of combinations) {
+        if (
+        ticItems[comb[0]].classList.contains("cross") &&
+        ticItems[comb[1]].classList.contains("cross") &&
+        ticItems[comb[2]].classList.contains("cross")
+        ) {
+            result = "Крестики выиграли!";
+            openFinishTitle(result);
+        } else if (
+        ticItems[comb[0]].classList.contains("circle") &&
+        ticItems[comb[1]].classList.contains("circle") &&
+        ticItems[comb[2]].classList.contains("circle")
+        ) {
+            result = "Нолики выиграли!";
+            openFinishTitle(result);
+        } else if (count >= 9) {
+            result = "Ничья!";
+            openFinishTitle(result);
+        }
     }
 }
 
-function winUser (cell, num ) {
-    if (cell.classList.contains("cross")) {
-        crossStr += num;
-    } else {
-        circleStr += num;
-    }
-    console.log(crossStr);
-    console.log(circleStr);
-
-    whoWin(crossStr, allWinCombination);
-    whoWin(circleStr, allWinCombination);
+function openFinishTitle (res) {
+    finishPopup.classList.remove("close");
+    finishPopup.firstElementChild.innerHTML = res;
 }
 
-function whoWin (str, arr) {
-    arr.forEach(item => {
-        if (str.includes(item)) {
-            alert(`cross win!`);
+restartGame.addEventListener("click", () => {
+    ticItems.forEach(item => {
+        if (item.classList.contains("cross")) {
+            item.classList.remove("cross");
+        } else {
+            item.classList.remove("circle");
         }
     });
-}
+    finishPopup.classList.add("close");
+    counter = 0;
+});
+
+/* УБРАТЬ!!! */
+//popup.classList.add("close");
 
 
 welcomeBtn.addEventListener("click", () => {
@@ -87,10 +107,23 @@ welcomeBtn.addEventListener("click", () => {
         [
             {opacity: '100%'},
             {opacity: '50%'},
-            {opacity: '0%', display: 'none'}
+            {opacity: '0%'}
         ], animationTiming
     );
-    popup.classList.add("close");
+    getUserName();
+    setTimeout(popClose, 500);
 });
+
+function popClose () {
+    popup.classList.add("close");
+}
+
+function getUserName () {
+    userNames[0].innerHTML += firstInName.value;
+    userNames[1].innerHTML += secondInName.value;
+}
+
+
+
 
 

@@ -43,6 +43,19 @@ h1, h2, h3, h4, h5, h6 {
     }
 }
 
+.btn {
+    padding: 8px 30px;
+
+    background-color: transparent;
+    border-radius: 20px;
+
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+
+
 .main {
     background-color: $mainColor;
 
@@ -86,20 +99,22 @@ h1, h2, h3, h4, h5, h6 {
                 border: 2px solid #000;
                 background-color: transparent;
                 border-radius: 10px;
+
+                &:active,
+                &:focus {
+                    outline: none;
+                }
             }
+
+            
         }
 
         &__btn {
             margin-top: 20px;
-            padding: 8px 30px;
-
-            background-color: transparent;
-            border-radius: 20px;
-
+    
             transition: background .3s linear;
 
             &:hover {
-                cursor: pointer;
                 background-color: #f5f918;
             }
         }
@@ -128,7 +143,8 @@ h1, h2, h3, h4, h5, h6 {
 
 
             &:hover {
-                background-color: #f7a9c4;
+                cursor: pointer;
+                background-color: #e1e262;
             }
 
             &.cross::before, &.cross::after {
@@ -156,6 +172,31 @@ h1, h2, h3, h4, h5, h6 {
         }
         
     }
+
+    .finish {
+        position: absolute;
+        z-index: 500;
+        width: 100%;
+        height: auto;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        padding: 20px 0;
+
+        background-color: rgba($color: #87fa24, $alpha: .6);
+
+        &__title {
+            margin-bottom: 20px;
+        }
+
+        &.close {
+            display: none;
+        }
+    }
+
 }
 
 .footer {

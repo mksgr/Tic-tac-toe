@@ -48,8 +48,18 @@ h1, h2, h3, h4, h5, h6 {
 .header__title {
   color: #fff;
 }
+@media screen and (max-width: 480px) {
+  .header__title {
+    font-size: 12px;
+  }
+}
 .header__name {
   color: #fff;
+}
+@media screen and (max-width: 480px) {
+  .header__name {
+    font-size: 12px;
+  }
 }
 
 .btn {
@@ -132,8 +142,8 @@ h1, h2, h3, h4, h5, h6 {
   background-color: #f5f918;
 }
 .main .wrapper {
-  height: 80vh;
   width: 80vh;
+  height: 80vh;
   display: -ms-grid;
   display: grid;
   -ms-grid-columns: 1fr 10px 1fr 10px 1fr;
@@ -177,6 +187,12 @@ h1, h2, h3, h4, h5, h6 {
 .main .wrapper > *:nth-child(9) {
   -ms-grid-row: 5;
   -ms-grid-column: 5;
+}
+@media screen and (max-width: 768px) {
+  .main .wrapper {
+    width: 90vw;
+    height: 90vw;
+  }
 }
 .main .wrapper__item {
   border: 2px solid #000;

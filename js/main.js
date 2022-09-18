@@ -12,6 +12,7 @@ const animationTiming = {
     fill: "forwards",
 };
 
+
 let counter = 0;
 let allWinCombination = [
     [0, 1 ,2],
@@ -27,7 +28,11 @@ let allWinCombination = [
 
 ticItems.forEach((item, i) => {
     item.addEventListener("click", () => {
-        counter += 1;
+        if (!(item.classList.contains("cross")) && !((item.classList.contains("circle")))) {
+            counter++;
+            console.log(counter);
+        }
+        
         addCrossOrCircle(item, toggleFigure(counter));
         winnerFigure(allWinCombination, counter);
     });
@@ -58,6 +63,7 @@ function toggleFigure (step) {
 }
 
 function winnerFigure (combinations, count) {
+    let noCombination = true;
     let result = "";
     for (let comb of combinations) {
         if (
@@ -65,16 +71,20 @@ function winnerFigure (combinations, count) {
         ticItems[comb[1]].classList.contains("cross") &&
         ticItems[comb[2]].classList.contains("cross")
         ) {
-            result = "Крестики выиграли!";
+            noCombination = false;
+            userNames[0].style.color = '#87fa24';
+            result = `Игрок ${firstInName.value} (крестики) победил`;
             openFinishTitle(result);
         } else if (
         ticItems[comb[0]].classList.contains("circle") &&
         ticItems[comb[1]].classList.contains("circle") &&
         ticItems[comb[2]].classList.contains("circle")
         ) {
-            result = "Нолики выиграли!";
+            noCombination = false;
+            userNames[1].style.color = '#87fa24';
+            result = `Игрок ${secondInName.value} (нолики) победил`;
             openFinishTitle(result);
-        } else if (count >= 9) {
+        } else if (noCombination && count >= 9) {
             result = "Ничья!";
             openFinishTitle(result);
         }
@@ -84,9 +94,12 @@ function winnerFigure (combinations, count) {
 function openFinishTitle (res) {
     finishPopup.classList.remove("close");
     finishPopup.firstElementChild.innerHTML = res;
+
 }
 
 restartGame.addEventListener("click", () => {
+    userNames[0].style.color = '#fff';
+    userNames[1].style.color = '#fff';
     ticItems.forEach(item => {
         if (item.classList.contains("cross")) {
             item.classList.remove("cross");
